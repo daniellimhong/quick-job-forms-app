@@ -9,7 +9,8 @@ class App extends Component {
     city: "",
     state: "",
     zip: "",
-    workExperience: {},
+    workExperience: [], //of objects
+    education: [], //of objects
     submitted: false,
     stage: 0
   };
@@ -17,29 +18,79 @@ class App extends Component {
   changeHandler = event => {
     this.setState({
       [event.target.name]: event.target.value
-    })
+    });
+  };
+
+  workChangeHandler = event => {
+    // this.setState(prevState => ({
+    //   workExperience: [
+    //     // {[event.target.name]: event.target.value}
+    //     ...prevState.workExperience,
+    //     {[event.target.name]: event.target.value}
+    //   ]
+    // }))
+
+    const { workExperience } = { ...this.state }
+    const currentState = workExperience;
+    const { name, value } = event.target;
+    currentState[name] = value;
+
+    this.setState({ workExperience: currentState })
   }
 
   nextHandler = () => {
-      this.setState({
+    this.setState({
       stage: this.state.stage + 1
-    }) 
-  }
+    });
+  };
 
   backHandler = () => {
     this.setState({
       stage: this.state.stage - 1
-    }) 
-  }
+    });
+  };
+
+  addExperience = () => {
+    this.setState(prevState => ({
+      workExperience: [
+        ...prevState.workExperience,
+        {
+          id: this.state.workExperience.length, // check this
+          company: "",
+          position: "",
+          startDate: "",
+          endDate: "",
+          isCurrent: false
+        }
+      ]
+    }));
+  };
+
+  deleteExperience = index => {
+    this.setState(prevState => ({
+      workExperience: prevState.workExperience.filter((_, i) => i !== index)
+    }));
+  };
 
   render() {
-    const { fullName, address, city, state, zip, stage, workExperience } = this.state;
-    console.log(stage)
+    const {
+      fullName,
+      address,
+      city,
+      state,
+      zip,
+      stage,
+      workExperience,
+      education
+    } = this.state;
+    console.log(stage);
+    // console.log(workExperience);
+    console.log(workExperience)
 
     return (
       <div className="App">
         <h2>Job Application Form</h2>
-        <FormContainer 
+        <FormContainer
           fullName={fullName}
           address={address}
           city={city}
@@ -47,10 +98,14 @@ class App extends Component {
           zip={zip}
           stage={stage}
           workExperience={workExperience}
+          education={education}
           changeHandler={this.changeHandler}
+          workChangeHandler={this.workChangeHandler}
           nextHandler={this.nextHandler}
           backHandler={this.backHandler}
-          />
+          addExperience={this.addExperience}
+          deleteExperience={this.deleteExperience}
+        />
       </div>
     );
   }

@@ -24,7 +24,11 @@ const FormContainer = props => {
         <ExperienceForm
           workExperience={props.workExperience}
           changeHandler={props.changeHandler}
+          workChangeHandler={props.workChangeHandler}
+          addExperience={props.addExperience}
+          deleteExperience={props.deleteExperience}
           nextHandler={props.nextHandler}
+          backHandler={props.backHandler}
         />
       )}
     </div>
